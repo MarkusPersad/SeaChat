@@ -49,3 +49,4 @@
 {"level":"error","ip":"127.0.0.1","latency":"73.637µs","status":500,"method":"GET","url":"/","error":"Cannot GET /","time":1741162668,"caller":"/home/markus/Documents/project/SeaChat/middleware/fiberzerolog/zerolog.go:85","message":"Server error"}
 {"level":"info","ip":"127.0.0.1","latency":"7.935µs","status":200,"method":"GET","url":"/favicon.ico","time":1741162668,"caller":"/home/markus/Documents/project/SeaChat/middleware/fiberzerolog/zerolog.go:81","message":"Success"}
 {"level":"error","ip":"127.0.0.1","latency":"14.798µs","status":500,"method":"GET","url":"/","error":"Cannot GET /","time":1741162700,"caller":"/home/markus/Documents/project/SeaChat/middleware/fiberzerolog/zerolog.go:85","message":"Server error"}
+{"level":"fatal","error":"dial tcp 127.0.0.1:3306: connect: connection refused","time":1741177176,"caller":"/home/markus/Documents/project/SeaChat/internal/database/database.go:61","message":"failed to connect to database"}

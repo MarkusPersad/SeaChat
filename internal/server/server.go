@@ -1,6 +1,7 @@
 package server
 
 import (
+	"SeaChat/internal/database"
 	"SeaChat/middleware/fibererrorhandler"
 	"os"
 
@@ -9,6 +10,7 @@ import (
 
 type FiberServer struct {
 	*fiber.App
+	service database.Service
 }
 
 func New() *FiberServer {
@@ -18,6 +20,7 @@ func New() *FiberServer {
 			ServerHeader: os.Getenv("APP_NAME"),
 			ErrorHandler: fibererrorhandler.ErrorHandler,
 		}),
+		service: database.New(),
 	}
 	return server
 }

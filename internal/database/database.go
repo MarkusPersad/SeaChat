@@ -38,6 +38,7 @@ type Service interface {
 	Close() error
 	GetDB(ctx context.Context) *gorm.DB
 	Transaction(ctx context.Context, fn func(ctx context.Context) error) error
+	ValStore
 }
 
 type service struct {
@@ -45,7 +46,7 @@ type service struct {
 	valkey valkey.Client
 }
 
-func New() *service {
+func New() Service {
 	if dbInstance != nil {
 		return dbInstance
 	}
