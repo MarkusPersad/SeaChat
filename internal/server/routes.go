@@ -2,8 +2,10 @@ package server
 
 import (
 	"SeaChat/middleware/fiberswagger"
+	"SeaChat/middleware/fibertimeout"
 	"SeaChat/middleware/fiberzerolog"
 	"SeaChat/middleware/recoverery"
+	"SeaChat/pkg/constants"
 	"time"
 
 	"github.com/gofiber/contrib/monitor"
@@ -14,6 +16,7 @@ import (
 	"github.com/gofiber/fiber/v3/middleware/favicon"
 	"github.com/gofiber/fiber/v3/middleware/limiter"
 	recoverer "github.com/gofiber/fiber/v3/middleware/recover"
+	"github.com/gofiber/fiber/v3/middleware/timeout"
 	"github.com/rs/zerolog/log"
 )
 
@@ -66,6 +69,8 @@ func(s *FiberServer) RegisterFiberRoutes(){
 		LimiterMiddleware: limiter.SlidingWindow{},
 		Next: nil,
 	}))
+	// Apply timeout middleware
+	s.App.Use(timeout.New(fibertimeout.TimeoutHandler,constants.REQUEST_TIMEOUT*time.Second))
 	api := s.App.Group("/api")
 	api.Get("/",s.HelloWorldHandler)
 }
@@ -79,6 +84,7 @@ func(s *FiberServer) RegisterFiberRoutes(){
 // @Success 200 {object} any
 // @Router / [get]
 func (s *FiberServer) HelloWorldHandler(c fiber.Ctx) error {
+	time.Sleep(4*time.Second)
 	resp := fiber.Map{
 		"message": "Hello World",
 	}

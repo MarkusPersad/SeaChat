@@ -1,5 +1,9 @@
 package exception
 
+var (
+	ErrTimeout = New(400, "请求超时")
+)
+
 
 type PersonalError struct {
 	Code int

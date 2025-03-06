@@ -12,6 +12,7 @@ func ErrorHandler(ctx fiber.Ctx,err error) error {
 	if personalError,ok := err.(*exception.PersonalError); ok {
 		response = structses.Fail[any](personalError)
 		ctx.Status(fiber.StatusOK).JSON(response)
+		return nil
 	}
 	response = structses.Response[any]{
 		Code: fiber.StatusInternalServerError,
