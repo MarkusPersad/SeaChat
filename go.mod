@@ -3,10 +3,12 @@ module SeaChat
 go 1.24.0
 
 require (
+	github.com/MicahParks/keyfunc/v2 v2.1.0
 	github.com/cilium/lumberjack/v2 v2.4.1
 	github.com/go-openapi/runtime v0.28.0
 	github.com/gofiber/contrib/monitor v0.1.0
 	github.com/gofiber/fiber/v3 v3.0.0-beta.4
+	github.com/golang-jwt/jwt/v5 v5.2.1
 	github.com/joho/godotenv v1.5.1
 	github.com/mojocn/base64Captcha v1.3.8
 	github.com/rs/zerolog v1.33.0
