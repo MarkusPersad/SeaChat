@@ -22,8 +22,8 @@ tmp/
 .vscode
 .idea
 
-# .env file
-
+# logs directory
+logs/
 
 # Project build
 SeaChat

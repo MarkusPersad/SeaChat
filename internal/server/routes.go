@@ -21,6 +21,28 @@ import (
 )
 
 func(s *FiberServer) RegisterFiberRoutes(){
+	api := s.App.Group("/api")
+	api.Get("/",s.HelloWorldHandler)
+}
+
+// HelloWorldHandler
+// @Summary Hello World Handler
+// @Description Returns a simple hello world message
+// @Tags hello
+// @Accept json
+// @Produce json
+// @Success 200 {object} any
+// @Router / [get]
+func (s *FiberServer) HelloWorldHandler(c fiber.Ctx) error {
+	time.Sleep(4*time.Second)
+	resp := fiber.Map{
+		"message": "Hello World",
+	}
+
+	return c.JSON(resp)
+}
+
+func(s *FiberServer) RegisterMiddleware(){
 	// Apply cors middleware
 	s.App.Use(cors.New(cors.Config{
 		AllowOrigins: []string{"*"},
@@ -71,23 +93,4 @@ func(s *FiberServer) RegisterFiberRoutes(){
 	}))
 	// Apply timeout middleware
 	s.App.Use(timeout.New(fibertimeout.TimeoutHandler,constants.REQUEST_TIMEOUT*time.Second))
-	api := s.App.Group("/api")
-	api.Get("/",s.HelloWorldHandler)
-}
-
-// HelloWorldHandler
-// @Summary Hello World Handler
-// @Description Returns a simple hello world message
-// @Tags hello
-// @Accept json
-// @Produce json
-// @Success 200 {object} any
-// @Router / [get]
-func (s *FiberServer) HelloWorldHandler(c fiber.Ctx) error {
-	time.Sleep(4*time.Second)
-	resp := fiber.Map{
-		"message": "Hello World",
-	}
-
-	return c.JSON(resp)
 }
