@@ -1,9 +1,13 @@
 package server
 
 import (
+	"SeaChat/pkg/constants"
+	"time"
+
 	"github.com/gofiber/contrib/fiberzerolog"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
+	"github.com/gofiber/fiber/v2/middleware/limiter"
 	"github.com/rs/zerolog/log"
 )
 
@@ -16,9 +20,17 @@ func (s *FiberServer) RegisterFiberRoutes() {
 		AllowCredentials: false, // credentials require explicit origins
 		MaxAge:           300,
 	}))
+
 	// Apply logging middleware
 	s.App.Use(fiberzerolog.New(fiberzerolog.Config{
 		Logger: &log.Logger,
+	}))
+
+	// Apply rate limiting middleware
+	s.App.Use(limiter.New(limiter.Config{
+		Max: constants.LIMITER_TIMES,
+		Expiration: constants.LIMITER_TIME*time.Second,
+		LimiterMiddleware: limiter.SlidingWindow{},
 	}))
 
 	s.App.Get("/", s.HelloWorldHandler)
