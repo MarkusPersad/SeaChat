@@ -1,6 +1,7 @@
 package server
 
 import (
+	recovermiddleware "SeaChat/internal/middleware/RecoverMiddleware"
 	"SeaChat/pkg/constants"
 	"fmt"
 	"os"
@@ -11,6 +12,7 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/limiter"
 	"github.com/gofiber/fiber/v2/middleware/monitor"
+	recoverer "github.com/gofiber/fiber/v2/middleware/recover"
 	"github.com/rs/zerolog/log"
 )
 
@@ -38,6 +40,13 @@ func (s *FiberServer) RegisterFiberRoutes() {
 
 	//Apply monitor middleware
 	s.App.Get("/metrics", monitor.New(monitor.Config{Title: fmt.Sprintf("%s Metrics Page",os.Getenv("APP_NAME"))}))
+
+	// Apply recover middleware
+	s.App.Use(recoverer.New(recoverer.Config{
+		Next: nil,
+		EnableStackTrace: true,
+		StackTraceHandler: recovermiddleware.StackTraceHandler,
+	}))
 
 	s.App.Get("/", s.HelloWorldHandler)
 
