@@ -5,6 +5,7 @@ import (
 	"errors"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/golang-jwt/jwt/v5"
 )
 
 func ErrorHandler(ctx *fiber.Ctx,err error) error {
@@ -23,4 +24,15 @@ func ErrorHandler(ctx *fiber.Ctx,err error) error {
 	}
 
 	return nil
+}
+
+func JwtErrorHandler(c *fiber.Ctx, err error) error {
+	switch err {
+	case jwt.ErrTokenExpired:
+		return c.Status(fiber.StatusOK).JSON(exception.ErrTimeout)
+	case jwt.ErrTokenInvalidAudience, jwt.ErrTokenInvalidIssuer, jwt.ErrTokenInvalidSubject, jwt.ErrTokenInvalidId, jwt.ErrTokenInvalidClaims:
+		return c.Status(fiber.StatusOK).JSON(exception.ErrTokenInvalid)
+	default:
+		return c.Status(fiber.StatusOK).JSON(fiber.ErrInternalServerError)
+	}
 }

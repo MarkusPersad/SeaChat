@@ -1,13 +1,17 @@
 package server
 
 import (
+	errormiddleware "SeaChat/internal/middleware/ErrorMiddleware"
+	jwtmiddleware "SeaChat/internal/middleware/JwtMiddleware"
 	recovermiddleware "SeaChat/internal/middleware/RecoverMiddleware"
 	"SeaChat/pkg/constants"
+	"SeaChat/pkg/entity"
 	"fmt"
 	"os"
 	"time"
 
 	"github.com/gofiber/contrib/fiberzerolog"
+	jwtware "github.com/gofiber/contrib/jwt"
 	"github.com/gofiber/contrib/swagger"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
@@ -56,6 +60,18 @@ func (s *FiberServer) RegisterFiberRoutes() {
 		Title: os.Getenv("APP_NAME"),
 		CacheAge: 3600,
 		Path: "docs",
+	}))
+
+	s.App.Use(jwtware.New(jwtware.Config{
+		SigningKey: jwtware.SigningKey{
+			Key: []byte(os.Getenv("JWT_SECRET")),
+			JWTAlg: "HS256",
+		},
+		ContextKey: constants.JWT_CONTEXT_KEY,
+		Claims: &entity.SeaClaim{},
+		ErrorHandler: errormiddleware.JwtErrorHandler,
+		Filter: jwtmiddleware.JwtFilter,
+
 	}))
 
 	s.App.Get("/", s.HelloWorldHandler)

@@ -27,6 +27,9 @@ func New() *FiberServer {
 			AppName:      AppName,
 			Prefork: prefork,
 			ErrorHandler: errormiddleware.ErrorHandler,
+			ReadTimeout:  30000,
+			WriteTimeout: 30000,
+			IdleTimeout:  30000,
 		}),
 
 		db: database.New(),
