@@ -1,8 +1,10 @@
 package server
 
 import (
+	"github.com/gofiber/contrib/fiberzerolog"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
+	"github.com/rs/zerolog/log"
 )
 
 func (s *FiberServer) RegisterFiberRoutes() {
@@ -13,6 +15,10 @@ func (s *FiberServer) RegisterFiberRoutes() {
 		AllowHeaders:     "Accept,Authorization,Content-Type",
 		AllowCredentials: false, // credentials require explicit origins
 		MaxAge:           300,
+	}))
+	// Apply logging middleware
+	s.App.Use(fiberzerolog.New(fiberzerolog.Config{
+		Logger: &log.Logger,
 	}))
 
 	s.App.Get("/", s.HelloWorldHandler)

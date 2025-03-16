@@ -4,6 +4,7 @@ go 1.24.1
 
 require (
 	github.com/cilium/lumberjack/v2 v2.4.1
+	github.com/gofiber/contrib/fiberzerolog v1.0.2
 	github.com/gofiber/fiber/v2 v2.52.6
 	github.com/joho/godotenv v1.5.1
 	github.com/rs/zerolog v1.33.0
@@ -12,6 +13,7 @@ require (
 	github.com/valkey-io/valkey-go v1.0.55
 	gorm.io/driver/mysql v1.5.7
 	gorm.io/gorm v1.25.12
+	gorm.io/plugin/optimisticlock v1.1.3
 )
 
 require (
