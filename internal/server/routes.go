@@ -2,12 +2,15 @@ package server
 
 import (
 	"SeaChat/pkg/constants"
+	"fmt"
+	"os"
 	"time"
 
 	"github.com/gofiber/contrib/fiberzerolog"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/limiter"
+	"github.com/gofiber/fiber/v2/middleware/monitor"
 	"github.com/rs/zerolog/log"
 )
 
@@ -32,6 +35,9 @@ func (s *FiberServer) RegisterFiberRoutes() {
 		Expiration: constants.LIMITER_TIME*time.Second,
 		LimiterMiddleware: limiter.SlidingWindow{},
 	}))
+
+	//Apply monitor middleware
+	s.App.Get("/metrics", monitor.New(monitor.Config{Title: fmt.Sprintf("%s Metrics Page",os.Getenv("APP_NAME"))}))
 
 	s.App.Get("/", s.HelloWorldHandler)
 
