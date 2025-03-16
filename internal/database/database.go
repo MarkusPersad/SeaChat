@@ -31,6 +31,7 @@ type Service interface {
 	Transaction(ctx context.Context, fn func(ctx context.Context) error) error
 
 	ValStore
+	ValkeyService
 }
 
 type service struct {
