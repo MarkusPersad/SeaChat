@@ -77,6 +77,9 @@ func (s *FiberServer) RegisterFiberRoutes() {
 	s.App.Get("/", s.HelloWorldHandler)
 
 	s.App.Get("/health", s.HealthHandler)
+	api := s.App.Group("/api")
+	account := api.Group("/account")
+	account.Get("/getcaptcha",s.GetCaptcha)
 
 }
 

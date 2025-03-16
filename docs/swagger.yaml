@@ -1,4 +1,13 @@
 basePath: /
+definitions:
+  response.Response:
+    properties:
+      code:
+        type: integer
+      data: {}
+      message:
+        type: string
+    type: object
 host: localhost:8080
 info:
   contact:
@@ -11,6 +20,21 @@ info:
   termsOfService: http://swagger.io/terms/
   version: "1.0"
 paths:
+  /api/account/getcaptcha:
+    get:
+      consumes:
+      - application/json
+      description: 获取验证码
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: 获取验证码
+      tags:
+      - Account
   /health:
     get:
       consumes:
