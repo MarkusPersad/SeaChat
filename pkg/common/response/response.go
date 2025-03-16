@@ -1,14 +1,16 @@
 package response
 
+import "github.com/gofiber/fiber/v2"
+
 type Response struct {
 	Code int `json:"code"`
 	Message string `json:"message"`
 	Data any `json:"data"`
 }
 
-func Success(code int, message string, data any) *Response {
+func Success( message string, data any) *Response {
 	return &Response{
-		Code: code,
+		Code: fiber.StatusOK,
 		Message: message,
 		Data: data,
 	}

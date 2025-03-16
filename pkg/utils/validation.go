@@ -24,7 +24,7 @@ func checkPassword(fl validator.FieldLevel) bool {
 	return true
 }
 
-func ProcessValidationErrors(entity any,err error) string {
+func processValidationErrors(entity any,err error) string {
 	if err == nil {
 		return ""
 	}
@@ -59,7 +59,7 @@ func Validate(data any) error {
 		}
 	}
 	if errs := valid.Struct(data); errs != nil {
-		return exception.New(constants.VALIDATION_ERROR,ProcessValidationErrors(data, errs))
+		return exception.New(constants.VALIDATION_ERROR,processValidationErrors(data, errs))
 	}
 	return nil
 }

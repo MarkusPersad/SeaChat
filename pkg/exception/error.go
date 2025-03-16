@@ -2,7 +2,10 @@ package exception
 
 var (
 	ErrTimeout  = New(400, "登录超时")
-	ErrTokenInvalid = New(401, "Token无效")
+	ErrTokenInvalid = New(402, "Token无效")
+	ErrBadRequest = New(401, "请求参数错误")
+	ErrCaptchaInvalid = New(403, "验证码无效")
+	ErrUserAlreadyExists = New(405, "用户已存在")
 )
 
 type SeaError struct {
