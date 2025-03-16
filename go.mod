@@ -12,6 +12,7 @@ require (
 	github.com/joho/godotenv v1.5.1
 	github.com/mojocn/base64Captcha v1.3.8
 	github.com/rs/zerolog v1.33.0
+	github.com/swaggo/swag v1.16.4
 	github.com/testcontainers/testcontainers-go v0.35.0
 	github.com/testcontainers/testcontainers-go/modules/mysql v0.35.0
 	github.com/valkey-io/valkey-go v1.0.55
@@ -24,6 +25,7 @@ require (
 	dario.cat/mergo v1.0.0 // indirect
 	filippo.io/edwards25519 v1.1.0 // indirect
 	github.com/Azure/go-ansiterm v0.0.0-20210617225240-d185dfc1b5a1 // indirect
+	github.com/KyleBanks/depth v1.2.1 // indirect
 	github.com/MicahParks/keyfunc/v2 v2.1.0 // indirect
 	github.com/Microsoft/go-winio v0.6.2 // indirect
 	github.com/andybalholm/brotli v1.1.1 // indirect
@@ -100,6 +102,7 @@ require (
 	golang.org/x/image v0.23.0 // indirect
 	golang.org/x/sys v0.31.0 // indirect
 	golang.org/x/text v0.22.0 // indirect
+	golang.org/x/tools v0.30.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )

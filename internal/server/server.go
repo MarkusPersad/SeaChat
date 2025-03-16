@@ -4,9 +4,11 @@ import (
 	"os"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/rs/zerolog/log"
 
 	"SeaChat/internal/database"
 	errormiddleware "SeaChat/internal/middleware/ErrorMiddleware"
+	"SeaChat/internal/model"
 )
 
 var (
@@ -33,6 +35,9 @@ func New() *FiberServer {
 		}),
 
 		db: database.New(),
+	}
+	if err := server.db.InitDB(&model.User{}); err != nil {
+		log.Logger.Fatal().Err(err).Msgf("Failed to initialize database Error: %v", err)
 	}
 
 	return server

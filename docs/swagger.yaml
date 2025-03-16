@@ -1,0 +1,28 @@
+basePath: /
+host: localhost:8080
+info:
+  contact:
+    email: msp060308@gmail.com
+    name: markus
+  description: SeaChat API文档
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  version: "1.0"
+paths:
+  /health:
+    get:
+      consumes:
+      - application/json
+      description: 获取健康状态
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回结果
+          schema: {}
+      summary: 获取健康状态
+      tags:
+      - 服务管理
+swagger: "2.0"

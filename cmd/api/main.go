@@ -1,6 +1,7 @@
 package main
 
 import (
+	_ "SeaChat/docs"
 	"SeaChat/internal/server"
 	"context"
 	"fmt"
@@ -37,7 +38,19 @@ func gracefulShutdown(fiberServer *server.FiberServer, done chan bool) {
 	// Notify the main goroutine that the shutdown is complete
 	done <- true
 }
+// @version 1.0
+// @description SeaChat API文档
+// @termsOfService http://swagger.io/terms/
 
+// @contact.name markus
+// @contact.email msp060308@gmail.com
+
+// @license.name Apache 2.0
+// @license.url http://www.apache.org/licenses/LICENSE-2.0.html
+
+// @host localhost:8080
+// @BasePath /
+// @query.collection.format multi
 func main() {
 
 	server := server.New()

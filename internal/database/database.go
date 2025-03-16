@@ -27,6 +27,8 @@ type Service interface {
 	// It returns an error if the connection cannot be closed.
 	Close() error
 
+	InitDB(models ...any) error
+
 	GetDB(ctx context.Context) *gorm.DB
 	Transaction(ctx context.Context, fn func(ctx context.Context) error) error
 
@@ -196,4 +198,11 @@ func (s *service) Transaction(ctx context.Context, fn func(ctx context.Context) 
 		ctx = context.WithValue(ctx, ctxTxKey, tx)
 		return fn(ctx)
 	})
+}
+
+func(s *service) InitDB(models ...any) error{
+	if len(models) == 0 {
+		return nil
+	}
+	return s.db.AutoMigrate(models...)
 }

@@ -1,0 +1,41 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "SeaChat API文档",
+        "termsOfService": "http://swagger.io/terms/",
+        "contact": {
+            "name": "markus",
+            "email": "msp060308@gmail.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0"
+    },
+    "host": "localhost:8080",
+    "basePath": "/",
+    "paths": {
+        "/health": {
+            "get": {
+                "description": "获取健康状态",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "服务管理"
+                ],
+                "summary": "获取健康状态",
+                "responses": {
+                    "200": {
+                        "description": "返回结果",
+                        "schema": {}
+                    }
+                }
+            }
+        }
+    }
+}
