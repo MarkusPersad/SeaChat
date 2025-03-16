@@ -30,8 +30,8 @@ func mustStartMySQLContainer() (func(context.Context, ...testcontainers.Terminat
 	}
 
 	dbname = dbName
-	password = dbPwd
-	username = dbUser
+	dbpassword = dbPwd
+	dbusername = dbUser
 
 	dbHost, err := dbContainer.Host(context.Background())
 	if err != nil {
@@ -43,8 +43,8 @@ func mustStartMySQLContainer() (func(context.Context, ...testcontainers.Terminat
 		return dbContainer.Terminate, err
 	}
 
-	host = dbHost
-	port = dbPort.Port()
+	dbhost = dbHost
+	dbport = dbPort.Port()
 
 	return dbContainer.Terminate, err
 }
