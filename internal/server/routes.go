@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/gofiber/contrib/fiberzerolog"
+	"github.com/gofiber/contrib/swagger"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/limiter"
@@ -46,6 +47,15 @@ func (s *FiberServer) RegisterFiberRoutes() {
 		Next: nil,
 		EnableStackTrace: true,
 		StackTraceHandler: recovermiddleware.StackTraceHandler,
+	}))
+
+	// Apply swagger middleware
+	s.App.Use(swagger.New(swagger.Config{
+		BasePath: "/",
+		FilePath: "./docs/swagger.json",
+		Title: os.Getenv("APP_NAME"),
+		CacheAge: 3600,
+		Path: "docs",
 	}))
 
 	s.App.Get("/", s.HelloWorldHandler)
