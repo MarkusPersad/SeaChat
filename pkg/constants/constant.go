@@ -9,4 +9,9 @@ const (
 	FIELD_ERROR_INFO = "field_error_info"
 	PASSWORD_REGEX   = `^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,32}$`
 	VALIDATION_ERROR = 444
+	TOKEN_EXPIRATION = 30
+)
+const (
+	USER_ONLINE = "online"
+	USER_OFFLINE = "offline"
 )

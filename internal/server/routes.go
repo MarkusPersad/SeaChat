@@ -80,6 +80,8 @@ func (s *FiberServer) RegisterFiberRoutes() {
 	api := s.App.Group("/api")
 	account := api.Group("/account")
 	account.Get("/getcaptcha",s.GetCaptcha)
+	account.Post("/register", s.Register)
+	account.Post("/login", s.Login)
 
 }
 

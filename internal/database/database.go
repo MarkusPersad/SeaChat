@@ -14,6 +14,7 @@ import (
 	"github.com/valkey-io/valkey-go"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 	"gorm.io/gorm/schema"
 )
 
@@ -72,6 +73,8 @@ func New() Service {
 			TablePrefix: dbtableprefix,
 		},
 		SkipDefaultTransaction: true,
+		PrepareStmt: true,
+		Logger: logger.Default.LogMode(logger.Silent),
 	})
 	if err != nil {
 		log.Logger.Fatal().Err(err).Msgf("Failed to connect to database due to %v", err)

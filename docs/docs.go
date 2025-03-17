@@ -46,6 +46,74 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/account/login": {
+            "post": {
+                "description": "用户登录",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Account"
+                ],
+                "summary": "用户登录",
+                "parameters": [
+                    {
+                        "description": "用户登录",
+                        "name": "login",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.Login"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/account/register": {
+            "post": {
+                "description": "用户注册",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Account"
+                ],
+                "summary": "用户注册",
+                "parameters": [
+                    {
+                        "description": "用户注册信息",
+                        "name": "register",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.Register"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/health": {
             "get": {
                 "description": "获取健康状态",
@@ -69,6 +137,58 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "request.Login": {
+            "type": "object",
+            "required": [
+                "checkCode",
+                "checkCodeKey",
+                "email",
+                "password"
+            ],
+            "properties": {
+                "checkCode": {
+                    "type": "string"
+                },
+                "checkCodeKey": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        },
+        "request.Register": {
+            "type": "object",
+            "required": [
+                "checkCode",
+                "checkCodeKey",
+                "email",
+                "password",
+                "userName"
+            ],
+            "properties": {
+                "checkCode": {
+                    "type": "string"
+                },
+                "checkCodeKey": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "userName": {
+                    "type": "string",
+                    "maxLength": 32,
+                    "minLength": 5
+                }
+            }
+        },
         "response.Response": {
             "type": "object",
             "properties": {

@@ -6,6 +6,8 @@ var (
 	ErrBadRequest = New(401, "请求参数错误")
 	ErrCaptchaInvalid = New(403, "验证码无效")
 	ErrUserAlreadyExists = New(405, "用户已存在")
+	ErrUserNotFound = New(406, "用户不存在")
+	ErrPasswordInvalid = New(407, "密码错误")
 )
 
 type SeaError struct {
