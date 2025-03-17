@@ -14,6 +14,7 @@ import (
 	jwtware "github.com/gofiber/contrib/jwt"
 	"github.com/gofiber/contrib/swagger"
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/compress"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/limiter"
 	"github.com/gofiber/fiber/v2/middleware/monitor"
@@ -61,7 +62,7 @@ func (s *FiberServer) RegisterFiberRoutes() {
 		CacheAge: 3600,
 		Path: "docs",
 	}))
-
+	// Apply jwt middleware
 	s.App.Use(jwtware.New(jwtware.Config{
 		SigningKey: jwtware.SigningKey{
 			Key: []byte(os.Getenv("JWT_SECRET")),
@@ -72,6 +73,10 @@ func (s *FiberServer) RegisterFiberRoutes() {
 		ErrorHandler: errormiddleware.JwtErrorHandler,
 		Filter: jwtmiddleware.JwtFilter,
 
+	}))
+	// Apply compress middleware
+	s.App.Use(compress.New(compress.Config{
+		Level: compress.LevelBestSpeed,
 	}))
 
 	s.App.Get("/", s.HelloWorldHandler)

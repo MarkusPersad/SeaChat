@@ -106,6 +106,9 @@ func(h *Handler) Login(ctx *fiber.Ctx) error {
 			log.Error().Err(err).Msgf("用户登录失败：%v", err)
 			return err
 		}
+		if user.Status != constants.USER_OFFLINE {
+			return exception.ErrUserStatusInvalid
+		}
 		if err := utils.CompareHashPassword(user.Password, login.Password); err != nil {
 			log.Logger.Error().Err(err).Msgf("密码校验失败：%v", err)
 			return exception.ErrPasswordInvalid
