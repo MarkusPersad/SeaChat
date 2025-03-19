@@ -5,6 +5,7 @@ import (
 	"SeaChat/pkg/common/request"
 	"SeaChat/pkg/common/response"
 	"SeaChat/pkg/constants"
+	"SeaChat/pkg/entity"
 	"SeaChat/pkg/exception"
 	"SeaChat/pkg/utils"
 	"context"
@@ -133,4 +134,47 @@ func(h *Handler) Login(ctx *fiber.Ctx) error {
 		return err
 	}
 	return ctx.Status(fiber.StatusOK).JSON(response.Success("登录成功", tokenString))
+}
+
+// GetUserInfo 获取用户信息
+// @Summary 获取用户信息
+// @Description 获取用户信息
+// @Tags Account
+// @Accept json
+// @Produce json
+// @Param userinfo body request.UserInfo true "用户信息"
+// @Success 200 {object} response.Response
+// @Failure 200 {object} response.Response
+// @Router /api/account/getuserinfo [post]
+func(h *Handler)GetUserInfo(ctx *fiber.Ctx) error {
+	tokenString,err := utils.TokenCheck(ctx,h.db,false)
+	if err != nil {
+		return err
+	}
+	var userInfo request.UserInfo
+	if err := ctx.BodyParser(&userInfo); err != nil {
+		return exception.ErrBadRequest
+	}
+	if err := utils.Validate(&userInfo); err != nil {
+		log.Logger.Error().Err(err).Msgf("字段校验失败：%v", err)
+		return err
+	}
+	var user model.User
+	if err := h.db.GetDB(ctx.UserContext()).Model(&model.User{}).Where("user_id = ?",userInfo.Info).
+	Or("email = ?",userInfo.Info).
+	Or("user_name = ?",userInfo.Info).First(&user).Error; err != nil {
+		if err == gorm.ErrRecordNotFound {
+			return exception.ErrUserNotFound
+		} else {
+			return err
+		}
+	}
+	userDetails := entity.UserDetails{
+		UserID: user.UserID,
+		UserName: user.UserName,
+		Email: user.Email,
+		Status: user.Status,
+		Avatar: user.Avatar,
+	}
+	return ctx.Status(fiber.StatusOK).JSON(response.Success("获取用户信息成功",userDetails,tokenString))
 }
