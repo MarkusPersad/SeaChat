@@ -9,6 +9,7 @@ var (
 	ErrUserNotFound = New(406, "用户不存在")
 	ErrUserStatusInvalid = New(408, "用户状态无效")
 	ErrPasswordInvalid = New(407, "密码错误")
+	ErrPermissionDenied = New(409, "权限不足")
 )
 
 type SeaError struct {
