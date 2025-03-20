@@ -88,6 +88,7 @@ func (s *FiberServer) RegisterFiberRoutes() {
 	account.Post("/register", s.Register)
 	account.Post("/login", s.Login)
 	account.Post("/getuserinfo",s.GetUserInfo)
+	account.Post("/logout",s.Logout)
 
 }
 

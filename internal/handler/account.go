@@ -11,6 +11,7 @@ import (
 	"context"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/golang-jwt/jwt/v5"
 	"github.com/google/uuid"
 	"github.com/rs/zerolog/log"
 	"gorm.io/gorm"
@@ -177,4 +178,57 @@ func(h *Handler)GetUserInfo(ctx *fiber.Ctx) error {
 		Avatar: user.Avatar,
 	}
 	return ctx.Status(fiber.StatusOK).JSON(response.Success("获取用户信息成功",userDetails,tokenString))
+}
+
+// Logout 用户登出
+// @Summary 用户登出
+// @Description 用户登出
+// @Tags Account
+// @Accept json
+// @Produce json
+// @Param userinfo body request.UserInfo true "用户信息"
+// @Success 200 {object} response.Response
+// @Failure 200 {object} response.Response
+// @Router /api/account/logout [post]
+func(h *Handler)Logout(ctx *fiber.Ctx) error {
+	_,err := utils.TokenCheck(ctx,h.db,false)
+	if err != nil {
+		return err
+	}
+	claims := ctx.Locals(constants.JWT_CONTEXT_KEY).(*jwt.Token).Claims.(*entity.SeaClaim)
+	var userInfo request.UserInfo
+	if err := ctx.BodyParser(&userInfo); err != nil {
+		return exception.ErrBadRequest
+	}
+	if err := utils.Validate(&userInfo); err != nil {
+		log.Logger.Error().Err(err).Msgf("字段校验失败：%v", err)
+		return err
+	}
+	err = h.db.Transaction(ctx.UserContext(),func(ctx context.Context) error {
+		var user model.User
+		if err := h.db.GetDB(ctx).Model(&model.User{}).Where("user_id = ?",userInfo.Info).
+		First(&user).Error; err != nil {
+			if err == gorm.ErrRecordNotFound{
+				return exception.ErrUserNotFound
+			}
+			return err
+		}
+		if user.UserID != claims.UserID {
+			return exception.ErrPermissionDenied
+		}
+		user.Status = constants.USER_OFFLINE
+		if err := h.db.GetDB(ctx).Model(&model.User{}).Updates(&user).Error; err != nil {
+			log.Error().Err(err).Msgf("用户登出失败：%v", err)
+			return err
+		}
+		if err := h.db.DelValue(ctx,constants.JWT_CONTEXT_KEY+":"+user.UserID);err != nil {
+			log.Error().Err(err).Msgf("token删除失败：%v", err)
+			return err
+		}
+		return nil
+	})
+	if err != nil {
+		return err
+	}
+	return ctx.Status(fiber.StatusOK).JSON(response.Success("登出成功",nil))
 }

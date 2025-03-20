@@ -46,6 +46,40 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/account/getuserinfo": {
+            "post": {
+                "description": "获取用户信息",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Account"
+                ],
+                "summary": "获取用户信息",
+                "parameters": [
+                    {
+                        "description": "用户信息",
+                        "name": "userinfo",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.UserInfo"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/api/account/login": {
             "post": {
                 "description": "用户登录",
@@ -67,6 +101,40 @@ const docTemplate = `{
                         "required": true,
                         "schema": {
                             "$ref": "#/definitions/request.Login"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/account/logout": {
+            "post": {
+                "description": "用户登出",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Account"
+                ],
+                "summary": "用户登出",
+                "parameters": [
+                    {
+                        "description": "用户信息",
+                        "name": "userinfo",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.UserInfo"
                         }
                     }
                 ],
@@ -189,6 +257,17 @@ const docTemplate = `{
                 }
             }
         },
+        "request.UserInfo": {
+            "type": "object",
+            "required": [
+                "info"
+            ],
+            "properties": {
+                "info": {
+                    "type": "string"
+                }
+            }
+        },
         "response.Response": {
             "type": "object",
             "properties": {
@@ -197,6 +276,9 @@ const docTemplate = `{
                 },
                 "data": {},
                 "message": {
+                    "type": "string"
+                },
+                "token": {
                     "type": "string"
                 }
             }

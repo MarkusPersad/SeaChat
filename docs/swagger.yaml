@@ -37,12 +37,21 @@ definitions:
     - password
     - userName
     type: object
+  request.UserInfo:
+    properties:
+      info:
+        type: string
+    required:
+    - info
+    type: object
   response.Response:
     properties:
       code:
         type: integer
       data: {}
       message:
+        type: string
+      token:
         type: string
     type: object
 host: localhost:8080
@@ -72,6 +81,28 @@ paths:
       summary: 获取验证码
       tags:
       - Account
+  /api/account/getuserinfo:
+    post:
+      consumes:
+      - application/json
+      description: 获取用户信息
+      parameters:
+      - description: 用户信息
+        in: body
+        name: userinfo
+        required: true
+        schema:
+          $ref: '#/definitions/request.UserInfo'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: 获取用户信息
+      tags:
+      - Account
   /api/account/login:
     post:
       consumes:
@@ -92,6 +123,28 @@ paths:
           schema:
             $ref: '#/definitions/response.Response'
       summary: 用户登录
+      tags:
+      - Account
+  /api/account/logout:
+    post:
+      consumes:
+      - application/json
+      description: 用户登出
+      parameters:
+      - description: 用户信息
+        in: body
+        name: userinfo
+        required: true
+        schema:
+          $ref: '#/definitions/request.UserInfo'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: 用户登出
       tags:
       - Account
   /api/account/register:
