@@ -3,6 +3,11 @@
 # Build the application
 all: build test
 
+swagger:
+	@echo "Generating docs..."
+	@swag init -g cmd/api/main.go
+	@echo "Done."
+
 build:
 	@echo "Building..."
 	

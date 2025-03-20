@@ -51,3 +51,7 @@ Clean up binary from the last build:
 ```bash
 make clean
 ```
+Generate the swagger docs:
+```bash
+make swagger
+```
