@@ -10,7 +10,14 @@ type Handler struct {
 	db database.Service
 }
 
-func New() *Handler {
+type HandlerInterface interface {
+	HealthHandler(c *fiber.Ctx) error
+	InitDB(models ...any) error
+	Account
+	Friend
+}
+
+func New() HandlerInterface {
 	return &Handler{
 		db: database.New(),
 	}

@@ -17,6 +17,14 @@ import (
 	"gorm.io/gorm"
 )
 
+type Account interface {
+	GetCaptcha(ctx *fiber.Ctx) error
+	Register(ctx *fiber.Ctx) error
+	Login(ctx *fiber.Ctx) error
+	GetUserInfo(ctx *fiber.Ctx) error
+	Logout(ctx *fiber.Ctx) error
+}
+
 // GetCaptcha 获取验证码
 // @Summary 获取验证码
 // @Description 获取验证码

@@ -18,7 +18,7 @@ var (
 
 type FiberServer struct {
 	*fiber.App
-	*handler.Handler
+	handler.HandlerInterface
 }
 
 func New() *FiberServer {
@@ -32,7 +32,7 @@ func New() *FiberServer {
 			WriteTimeout: 30000,
 			IdleTimeout:  30000,
 		}),
-		Handler: handler.New(),
+		HandlerInterface: handler.New(),
 	}
 	if err := server.InitDB(&model.User{}); err != nil {
 		log.Logger.Fatal().Err(err).Msgf("Failed to initialize database Error: %v", err)

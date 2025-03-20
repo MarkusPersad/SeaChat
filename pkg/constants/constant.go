@@ -15,4 +15,7 @@ const (
 const (
 	USER_ONLINE = "online"
 	USER_OFFLINE = "offline"
+	FRIEND_STATUS_WAITING = "waiting"
+	FRIEND_STATUS_FRIENDLY  = "friendly"
+	FRIEND_STATUS_BLACKLIST = "blacklist"
 )
