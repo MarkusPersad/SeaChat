@@ -91,6 +91,7 @@ func (s *FiberServer) RegisterFiberRoutes() {
 	account.Post("/logout",s.Logout)
 	friend := api.Group("/friend")
 	friend.Post("/add",s.AddFriend)
+	friend.Post("/accept",s.AcceptFriend)
 
 }
 

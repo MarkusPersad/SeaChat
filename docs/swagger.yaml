@@ -169,6 +169,60 @@ paths:
       summary: 用户注册
       tags:
       - Account
+  /friend/accept:
+    post:
+      consumes:
+      - application/json
+      description: 接受好友(同意请求)
+      parameters:
+      - description: Bearer {token}
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: 用户信息
+        in: body
+        name: userInfo
+        required: true
+        schema:
+          $ref: '#/definitions/request.UserInfo'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: 接受好友(同意请求)
+      tags:
+      - Friend
+  /friend/add:
+    post:
+      consumes:
+      - application/json
+      description: 添加好友(发送请求)
+      parameters:
+      - description: Bearer {token}
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: 用户信息
+        in: body
+        name: userInfo
+        required: true
+        schema:
+          $ref: '#/definitions/request.UserInfo'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: 添加好友(发送请求)
+      tags:
+      - Friend
   /health:
     get:
       consumes:

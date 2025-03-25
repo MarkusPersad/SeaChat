@@ -11,7 +11,6 @@ import (
 	"context"
 
 	"github.com/gofiber/fiber/v2"
-	"github.com/golang-jwt/jwt/v5"
 	"github.com/google/uuid"
 	"github.com/rs/zerolog/log"
 	"gorm.io/gorm"
@@ -156,7 +155,7 @@ func(h *Handler) Login(ctx *fiber.Ctx) error {
 // @Failure 200 {object} response.Response
 // @Router /api/account/getuserinfo [post]
 func(h *Handler)GetUserInfo(ctx *fiber.Ctx) error {
-	tokenString,err := utils.TokenCheck(ctx,h.db,false)
+	tokenString,_,err := utils.TokenCheck(ctx,h.db,false)
 	if err != nil {
 		return err
 	}
@@ -199,11 +198,10 @@ func(h *Handler)GetUserInfo(ctx *fiber.Ctx) error {
 // @Failure 200 {object} response.Response
 // @Router /api/account/logout [post]
 func(h *Handler)Logout(ctx *fiber.Ctx) error {
-	_,err := utils.TokenCheck(ctx,h.db,false)
+	_,userId,err := utils.TokenCheck(ctx,h.db,false)
 	if err != nil {
 		return err
 	}
-	claims := ctx.Locals(constants.JWT_CONTEXT_KEY).(*jwt.Token).Claims.(*entity.SeaClaim)
 	var userInfo request.UserInfo
 	if err := ctx.BodyParser(&userInfo); err != nil {
 		return exception.ErrBadRequest
@@ -221,7 +219,7 @@ func(h *Handler)Logout(ctx *fiber.Ctx) error {
 			}
 			return err
 		}
-		if user.UserID != claims.UserID {
+		if user.UserID != userId{
 			return exception.ErrPermissionDenied
 		}
 		user.Status = constants.USER_OFFLINE
